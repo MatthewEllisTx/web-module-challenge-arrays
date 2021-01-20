@@ -45,8 +45,8 @@ Use the copy function below to do the following:
     2. Return a copy of the received array  
 */
 
-function copy(/*your code here*/){
-    /*your code here*/
+function copy(original){
+    return [...original];
 }    
 
 
@@ -64,8 +64,11 @@ For Example: is31Flavors(originalFlavors) will return true if your code is worki
 */
 
 
-function is31Flavors(/*your code here*/){
-   /*your code here*/
+function is31Flavors(array){
+   if(array.length == 31)
+       return true;
+    
+   return false;
 }
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
@@ -81,8 +84,9 @@ Use the addFlavor function below to do the following:
 */
 
 
-function addFlavor(/*your code here*/){
-   /*your code here*/
+function addFlavor(originalFlavors, newFlavor){
+    originalFlavors.unshift(newFlavor);
+    return originalFlavors;
 }
 
 
@@ -97,8 +101,10 @@ Use the removeLastFlavor function below to do the following:
     For example: running removeLastFlavor(originalFlavors) would return ["Rainbow Sherbert", "Banana Nut Fudge",..."Vanilla"]
 */
 
-function removeLastFlavor(/*your code here*/){
-   /*your code here*/
+function removeLastFlavor(array){
+   let newArray = copy(array)
+   newArray.pop();
+   return newArray;
 }
 
 
@@ -114,8 +120,8 @@ Use the getFlavorByIndex function below to do the following:
     For example: running getFlavorByIndex(originalFlavors, 2) would return "Black Walnut", assuming Rainbow Sherbert has been added successfully
 */
 
-function getFlavorByIndex(/*your code here*/){
-    /*your code here*/
+function getFlavorByIndex(flavors, i){
+    return flavors[i];
 }
 
 
@@ -134,8 +140,10 @@ Use the removeFlavorByName function below to do the following:
     HINT: You can use .splice() for this
 */
 
-function removeFlavorByName(/*your code here*/){
-    /*your code here*/
+function removeFlavorByName(array, flavor){
+    let newArray = copy(array)
+    newArray.splice(array.indexOf(flavor), 1);
+    return newArray;
 }
 
 
@@ -160,8 +168,13 @@ Use the filterByWord function below to do the following:
     DO NOT USE ADVANCED ARRAY METHODS (i.e. .filter) to solve this problem. 
 */
 
-function filterByWord(/*your code here*/){
-    /*your code here*/
+function filterByWord(originalFlavors, filter){
+    let promoFlavors = [];
+    for(let str of originalFlavors)
+        if(str.indexOf(filter) != -1)
+            promoFlavors.push(str);
+    
+    return promoFlavors;
 }
 
 
@@ -177,10 +190,15 @@ Use the getAverageWordLength function below to do the following:
     For example: getAverageWordLength(originalFlavors) should return a number between 0 and 3.     
 */
 
-function getAverageWordLength(/*code here*/){
-    /*code here*/
+function getAverageWordLength(array){
+    let numWords = 0;
+    for(let str of array)
+        numWords += str.split(' ').length;
+    
+    return numWords/array.length;
 }
 
+console.log(getAverageWordLength(originalFlavors));
 
 /* 💪💪💪💪💪💪💪💪💪💪 STRETCH 2: 💪💪💪💪💪💪💪💪💪
 Baskin Robins now offers new flavors, seasonal flavors, and even regional flavors. Write a function that will randomly select a total of 31 flavors 
@@ -195,8 +213,18 @@ Use the getRandomFlavors function and new arrays below to do the following:
 */
 
 
-function getRandomFlavors(/*code here*/){
-    /*code here*/
+function getRandomFlavors(originalFlavors, newFlavors, seasonalFlavors, regionalFlavors){
+    let allFlavors = originalFlavors.concat(newFlavors, seasonalFlavors, regionalFlavors);
+    let newArray = [];
+    
+    let r = Math.floor(Math.random()*allFlavors.length);
+    for(let i = 0; i < 31; i++){
+        newArray.push(allFlavors[r]);
+        allFlavors.slice(r, 1);
+        r = Math.floor(Math.random()*allFlavors.length);
+    }
+
+    return newArray;
 }
 
 // NEW DATA ARRAYS FOR STRETCH 2 ⬇️
@@ -280,7 +308,7 @@ const regionalFlavors = [
     "Caramel 'n' Cookies"
 ]
 
-
+console.log(getRandomFlavors(originalFlavors, newFlavors, seasonalFlavors, regionalFlavors));
 
 /* 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 */
 function foo(){
@@ -299,4 +327,3 @@ export default{
     getAverageWordLength,
     getRandomFlavors
 }
-
